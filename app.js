@@ -4,7 +4,18 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const app = express();
 const PORT = 8000;
+const bodyParser = require('body-parser');
+let User = require('./models/admin-model');
 
+const secretPass = "XkhZG4fW2t2W";
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+
+
+app.use(cors())
 
 
 const uri = `mongodb+srv://ostapokapo:${process.env.PRIVATE_KEY}@cluster0.nbqmwbn.mongodb.net/?retryWrites=true&w=majority`
@@ -22,6 +33,21 @@ db.once('open', () => {
 db.on('error', () => {
     console.error(`MongoDB connection error: ${error}`)
 })
+
+
+
+app.post('/createUser', async(req, res) => {
+    try{
+        const verify = await User.findOne({});
+        if(verify) {
+            res.send(verify);
+        } else {
+            console.log('ooo')     
+        }        
+    }catch(error){
+        console.log(`We have some prodlem: ${error}`)
+    }
+});
 
 
 
