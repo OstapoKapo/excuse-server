@@ -6,6 +6,7 @@ const app = express();
 const PORT = 8000;
 const bodyParser = require('body-parser');
 let User = require('./models/admin-model');
+const Exuse = require('./models/exuse-model');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
@@ -46,6 +47,18 @@ app.post('/createUser', async(req, res) => {
         console.log(`We have some prodlem: ${error}`)
     }
 });
+
+app.post('/createExuse', async(req, res) => {
+    try{
+        console.log(req.body);
+        const newExuse = new Exuse(req.body);
+        await newExuse.save();
+        res.status(201).json(newExuse);
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+})
 
 
 
