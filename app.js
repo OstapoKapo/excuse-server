@@ -63,8 +63,6 @@ app.post('/createExuse', async(req, res) => {
 app.get('/api/exuses', async(req, res) => {
     try{
         const exuses = await Exuse.find();
-        console.log(exuses);
-        res.json(exuses)
         res.status(201).json(exuses);
     } catch(error) {
         console.error(error);
