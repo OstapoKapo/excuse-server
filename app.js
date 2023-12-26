@@ -7,8 +7,6 @@ const PORT = 8000;
 const bodyParser = require('body-parser');
 let User = require('./models/admin-model');
 
-const secretPass = "XkhZG4fW2t2W";
-
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -18,7 +16,7 @@ app.use(express.json());
 app.use(cors())
 
 
-const uri = `mongodb+srv://ostapokapo:${process.env.PRIVATE_KEY}@cluster0.nbqmwbn.mongodb.net/?retryWrites=true&w=majority`
+const uri = `mongodb+srv://ostapokapo:qL7XquE8xO8kZ86l@cluster0.nbqmwbn.mongodb.net/?retryWrites=true&w=majority`
 
 mongoose.connect(uri, {
     useNewUrlParser:true,
