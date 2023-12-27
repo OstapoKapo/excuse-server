@@ -73,16 +73,16 @@ app.post('/createExuse', async(req, res) => {
     }
 })
 
-app.post('/deleteExuse', async(req, res) => {
-    try{
-        console.log(req.body);
-        await Exuse.deleteOne(req.body);
+app.delete('/deleteExuse/:id', async(req, res) => {
+    try {
+        const exuseId = req.params.id; 
+        await Exuse.deleteOne({ _id: exuseId });
         res.status(201).json('Exuse deleted!');
     } catch(error) {
         console.error(error);
         res.status(500).json({ error: error.message });
     }
-})
+});
 
 app.get('/api/exuses', async(req, res) => {
     try{
