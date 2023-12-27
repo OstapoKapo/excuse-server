@@ -48,6 +48,19 @@ app.post('/createUser', async(req, res) => {
     }
 });
 
+
+app.post('/changeExcuse', async(req, res) => {
+    try{
+        await  Exuse.updateOne({_id: req.body.targetId}, {excuse: req.body.value});
+        let excuses = await Exuse.find({});
+        res.send(excuses);
+        res.sendStatus(200);
+
+    }catch(error){
+        console.log(`We have some prodlem: ${error}`)
+    }
+});
+
 app.post('/createExuse', async(req, res) => {
     try{
         console.log(req.body);
