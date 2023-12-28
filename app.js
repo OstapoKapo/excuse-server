@@ -94,6 +94,22 @@ app.get('/api/exuses', async(req, res) => {
 })
 
 
+app.get('/api/random', async (req, res) => {
+    try {
+        const randomExuse = await Exuse.aggregate([{ $sample: { size: 1 } }]);
+        
+        if (randomExuse.length === 0) {
+            res.status(404).json({ message: 'No excuses found' });
+        } else {
+            res.status(200).json(randomExuse[0]); 
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 
 app.listen(PORT, () => {
     console.log(`Server work on port ${PORT}`);
