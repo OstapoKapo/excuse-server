@@ -19,10 +19,7 @@ app.use(cors())
 
 const uri = `mongodb+srv://ostapokapo:qL7XquE8xO8kZ86l@cluster0.nbqmwbn.mongodb.net/?retryWrites=true&w=majority`
 
-mongoose.connect(uri, {
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-})
+mongoose.connect(uri);
 
 const db = mongoose.connection;
 
