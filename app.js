@@ -2,6 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors')
 const mongoose = require('mongoose')
+const jwt = require('jsonwebtoken');
 const app = express();
 const PORT = 8000;
 const bodyParser = require('body-parser');
@@ -17,7 +18,9 @@ app.use(express.json());
 app.use(cors())
 
 
-const uri = `mongodb+srv://ostapokapo:qL7XquE8xO8kZ86l@cluster0.nbqmwbn.mongodb.net/?retryWrites=true&w=majority`
+const uri = `mongodb+srv://ostapokapo:qL7XquE8xO8kZ86l@cluster0.nbqmwbn.mongodb.net/?retryWrites=true&w=majority`;
+
+const secretKey = '09a77436724bcf2b174705e42897320172039beafcf267380720cd13be4088a4';
 
 mongoose.connect(uri, {
     useNewUrlParser:true,
@@ -39,14 +42,28 @@ app.post('/createUser', async(req, res) => {
     try{
         const verify = await User.findOne({});
         if(verify) {
-            res.send(verify);
+            const token = jwt.sign({username: verify.name}, secretKey, { expiresIn: '1h' });
+            res.json({user: verify, token: token});
+            // res.send(verify);
         } else {
-            console.log('ooo')     
+            console.log('User was not found')     
         }        
     }catch(error){
         console.log(`We have some prodlem: ${error}`)
     }
 });
+
+app.post('/verifyToken', (req, res) => {
+    const { token } = req.body;
+  
+    jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        res.json({ success: false, message: 'Token verification failed' });
+      } else {
+        res.json({ success: true, message: 'Token verified successfully' });
+      }
+    });
+  });
 
 
 app.post('/changeExcuse', async(req, res) => {
