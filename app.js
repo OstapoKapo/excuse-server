@@ -22,10 +22,7 @@ const uri = `mongodb+srv://ostapokapo:qL7XquE8xO8kZ86l@cluster0.nbqmwbn.mongodb.
 
 const secretKey = '09a77436724bcf2b174705e42897320172039beafcf267380720cd13be4088a4';
 
-mongoose.connect(uri, {
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-})
+mongoose.connect(uri);
 
 const db = mongoose.connection;
 
@@ -70,8 +67,7 @@ app.post('/changeExcuse', async(req, res) => {
     try{
         await  Exuse.updateOne({_id: req.body.targetId}, {excuse: req.body.value});
         let excuses = await Exuse.find({});
-        res.send(excuses);
-        res.sendStatus(200);
+        res.send(excuses).sendStatus(200);
 
     }catch(error){
         console.log(`We have some prodlem: ${error}`)
